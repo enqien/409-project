@@ -1,8 +1,0 @@
-SERVER_Port1=nsn160-58 ens800f0np0
-SERVER_Port2=nsn160-58 ens800f1np1
-SERVER_Port3=nsn160-58 ens840f0np0
-SERVER_Port4=nsn160-58 ens840f1np1
-CLIENT_Port1=nsn160-62 ens800f0np0
-CLIENT_Port2=nsn160-62 ens800f1np1
-CLIENT_Port3=nsn160-62 ens840f0np0
-CLIENT_Port4=nsn160-62 ens840f1np1
