@@ -3,9 +3,6 @@
 # to start MySQL server
 service mysqld start
 
-export http_proxy=http://www-proxy.us.oracle.com:80
-export https_proxy=http://www-proxy.us.oracle.com:80
-
 PERFY_HOME=$(pwd)
 
 export PERFY_HOME
