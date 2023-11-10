@@ -1,0 +1,56 @@
+<html lang="en">
+
+<head>
+  <title>OHD NETWORK Perfy - Performance Analysis Tool</title>
+  <link rel="stylesheet" type="text/css" href="/static/css/perfy-rank.css">
+  <link rel="stylesheet" type="text/css" href="/static/css/jquery-ui.css">
+
+</head>
+
+<body data-new-gr-c-s-check-loaded="14.1111.0" data-gr-ext-installed="">
+
+<div>
+    <a href="/perfy"><p class="title">OHD NETWORK - Perfy Matrix</p></a>
+    <div style="right: 0; position: absolute; font-size: 20px;">
+        <a href="{% url 'log_out' %}" class="admin-button">Log Out</a>
+    </div>
+</div>
+
+<script>
+    function confirmDelete(taskId, taskName) {
+        if (confirm(`Are you sure you want to delete the Whole task "${taskName}"?`)) {
+            const url = window.location.href;
+            const data = { task_name: taskName };
+            fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+            })
+            .then(response => {
+                if (response.ok) {
+                    alert('Task deleted successfully');
+                    location.reload();
+                } else {
+                    alert('Failed to delete task');
+                }
+            })
+            .catch(error => {
+                console.error('Error occurred while deleting task', error);
+            });
+        }
+    }
+</script>
+
+{% for task in tasks %}
+<li class="matrix" id="{{ task.id }}">
+    <a href="/perfy/manage/{{ task.id }}">{{ task.task_name  }}</a>
+    <a onclick="confirmDelete('{{ task.id }}','{{ task.task_name }}')">delete</a>
+</li>
+{% endfor %}
+
+
+</body><grammarly-desktop-integration data-grammarly-shadow-root="true"></grammarly-desktop-integration>
+
+</html>

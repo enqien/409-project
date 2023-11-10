@@ -1,0 +1,69 @@
+.header {
+        display: block;
+        width: 100%;
+        font-size: 26px;
+        margin: 20px;
+}
+
+table.system-info-table {
+        margin: 30px;
+        font-size: 20px;
+}
+
+table.system-info-table th.system-info-table-header {
+        font-size: 20px;
+}
+
+.table-container {
+        width: 100%;
+        height: 800px;
+        /* overflow: auto; */
+        margin: 0 auto;
+        margin-bottom: 50px;
+        overflow-y: scroll;
+}
+
+table {
+        border-collapse: collapse;
+        margin: 0 auto;
+        text-align: center;
+}
+
+table td,
+table th {
+        border: 1px solid #cad9ea;
+        color: #666;
+        height: 3px;
+}
+
+table thead th {
+        position: sticky;
+        top: 0;
+        background-color: #CCE8EB;
+        width: 100px;
+}
+
+
+table tr:nth-child(odd) {
+        background: #fff;
+}
+
+table tr:nth-child(even) {
+        background: #d5f8f8;
+}
+
+table td.marked {
+        background-color: #6decb7; /* 设置浅绿色背景颜色 */
+    }
+
+td.negative {
+        color: green;
+}
+
+td.positive {
+        color: red;
+}
+
+.comment {
+        font-style: italic;
+      }

@@ -1,0 +1,114 @@
+{% load static %}
+<link rel="stylesheet" type="text/css" href="" />
+
+<head>
+    <link rel="stylesheet" href="{% static 'css/perfy-iperf.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/perfy-rank.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/matrix.css' %}">
+</head>
+
+<script>
+    function SubmitComment(taskId,comment) {
+        const url = window.location.href + '/submit_comment';
+        const data = { taskId: taskId , comment : comment , type: "submit"};
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+        })
+        .then(response => {
+            if (response.ok) {
+                location.reload();
+            } else {
+                alert('Failed to Add Comment');
+            }
+        })
+        .catch(error => {
+            console.error('Error occurred while Commenting', error);
+        });
+    }
+
+    function deleteComment(commentID) {
+        const url = window.location.href + '/submit_comment';
+        const data = { type: "delete", commentID : commentID};
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+        })
+        .then(response => {
+            if (response.ok) {
+                location.reload();
+            } else {
+                response.text().then(errorMessage => {
+                alert('Failed to Add Comment: ' + errorMessage);
+                });
+            }
+        })
+        .catch(error => {
+            console.error('Error occurred while deleting comment', error);
+        });
+    }
+</script>
+
+<p class="title">
+    <a href="/perfy">OHD NETWORK - Perfy Matrix</a>
+</p>
+
+
+<body>
+    <div class="header">{{ table_name }}</div>
+    <form action="{% url 'my_view' t_id=t_id %}" method="GET"> Feature to Display: 
+        {% for feature_column in all_feature_columns %}
+            <label for="column1">{{ feature_column }}</label>
+            <input type="checkbox" name="column" value="{{ feature_column }}">
+        {% endfor %}
+      
+        <button type="submit">Submit</button>
+      </form>
+    <div class="system-info">
+        {% for sys_name, sys_info in systems_info.items %}
+        <table class="system-info-table">
+            <th colspan="2" class="system-info-table-header">{{ sys_name }}</th>
+            <tbody>
+                {% for sys_column, sys_value in sys_info.items %}
+                <tr>
+                    <td>{{ sys_column }}</td>
+                    <th>{{ sys_value }}</th>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% endfor %}
+    </div>
+    
+    <div class="table-container">
+        {{ data|safe }}
+    </div>
+
+    <div>
+        <ol>
+            {% for comment in comments %}
+            <li class="comment" style="font-size: 15px;">
+                <p style="font-weight: bold;">{{ comment.comment }}</p>
+                <p style="text-align: right;"><a onclick="deleteComment('{{ comment.id }}')">delete</a></p>
+                <p class="date" style="font-size: 13px; text-align: right;"> --- Created by {{ comment.post_user }} on {{ comment.created_at }}</p>
+                
+            </li>
+            {% endfor %}
+          </ol>
+    </div>
+    <div>
+        <form action="/submit_comment" method="post" onsubmit="event.preventDefault(); SubmitComment(1, comment.value);">
+            <label for="comments">Comment:</label>
+            <textarea id="comment" name="comment" rows="10" cols="100" required></textarea>
+            <input type="submit" value="Submit">
+          </form>
+    </div>
+
+</body>
+

@@ -1,0 +1,64 @@
+a {
+       text-decoration: none;
+       color: inherit;
+}
+a:visited {
+        //color: black !important;
+     
+}
+body, div, dl, dt, dd, h1, h2, h3, h4, h5, h6, p, pre, code, blockquote {
+        margin:0;
+        padding:0;
+        border-width:0;
+}
+body {
+        -epub-hyphens:auto;
+        font-family: Courier;
+        font-size: 12px;
+}
+
+li {
+        padding: 10px;
+        background-color: #EEE;
+        margin: 10px;
+        border-radius: 4px;
+        cursor: pointer;
+        max-width: 75%;
+}
+
+a {
+        margin-left: 50px;
+        color: blue !important;
+        font-size: 12px;
+}
+
+a.gtar {
+        font-size: 14px;
+}
+
+li p {
+        max-width: 70%;
+}
+
+li p:hover {
+        text-decoration: underline; 
+}
+
+li textarea {
+        display: none;
+        min-width: 95%;
+        min-height: 400px;
+        margin-top: 5px;
+}
+
+li a {
+        float: right;
+        margin-right: 30px;
+        display: none;
+}
+
+a:hover {
+        cursor: pointer;
+        text-decoration: underline; 
+}
+

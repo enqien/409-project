@@ -1,0 +1,51 @@
+{% load static %}
+<link rel="stylesheet" type="text/css" href="" />
+
+<head>
+    <link rel="stylesheet" href="{% static 'css/perfy-iperf.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/perfy-rank.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/matrix.css' %}">
+</head>
+
+<p class="title">
+    <a href="/perfy">OHD NETWORK - Perfy Matrix</a>
+</p>
+
+
+
+<body>
+    <div class="header">{{ table_name }}</div>
+    <form action="{% url 'my_view' t_id=t_id %}" method="GET"> Feature to Display: 
+        {% for feature_column in all_feature_columns %}
+            <label for="column1">{{ feature_column }}</label>
+            <input type="checkbox" name="column" value="{{ feature_column }}">
+        {% endfor %}
+      
+        <button type="submit">Submit</button>
+      </form>
+
+    
+    {% for task_name, system_info in systems_info.items %}
+        <div class="header">{{ task_name }}</div>
+        <div class="system-info">
+            {% for sys_name, sys_info in system_info.items %}
+            <table class="system-info-table">
+                <th colspan="2" class="system-info-table-header">{{ sys_name }}</th>
+                <tbody>
+                    {% for sys_column, sys_value in sys_info.items %}
+                    <tr>
+                        <td>{{ sys_column }}</td>
+                        <th>{{ sys_value }}</th>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% endfor %}
+        </div>
+    {% endfor %}
+
+    <div class="table-container">
+        {{ data|safe }}
+    </div>
+</body>
+

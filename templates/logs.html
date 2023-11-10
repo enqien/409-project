@@ -1,0 +1,55 @@
+{% load static %}
+<html lang="en">
+    <grammarly-extension data-grammarly-shadow-root="true" style="position: absolute; top: 0px; left: 0px; pointer-events: none;" class="dnXmp"></grammarly-extension><grammarly-extension data-grammarly-shadow-root="true" style="position: absolute; top: 0px; left: 0px; pointer-events: none;" class="dnXmp"></grammarly-extension>
+    
+    <head>
+    
+    <style type="text/css">/* Chart.js */
+  @-webkit-keyframes chartjs-render-animation{from{opacity:0.99}to{opacity:1}}@keyframes chartjs-render-animation{from{opacity:0.99}to{opacity:1}}.chartjs-render-monitor{-webkit-animation:chartjs-render-animation 0.001s;animation:chartjs-render-animation 0.001s;}</style>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/cell-data.css' %}">
+  
+  </head>
+
+
+  <script>
+    function toggleTextarea(event) {
+      var textarea = event.target.querySelector('textarea');
+      textarea.style.display = (textarea.style.display === 'none') ? 'inline-block' : 'none';
+    }
+    function Mark(log_id) {
+      const url = window.location.href;
+      const data = { log_id: log_id };
+      fetch(url, {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data),
+      })
+      .then(response => {
+          if (response.ok) {
+              location.reload();
+          }
+      })
+      .catch(error => {
+          console.error('Error occurred while marking', error);
+      });
+    }
+  </script>
+
+
+  <body data-new-gr-c-s-check-loaded="14.1112.0" data-gr-ext-installed="" data-new-gr-c-s-loaded="14.1112.0">
+    <a onclick="Mark('{{ log_id }}')">{{ log_mark }}</a>
+
+
+  <ol>
+    {% for log in logs %}
+    <li id="{{ log.log_name }}" onclick="toggleTextarea(event)">
+        <p>{{ log.log_name }}
+            <textarea style="display: none;" spellcheck="false">{{ log.log_content }}</textarea>
+        </p>
+    </li>
+    {% endfor %}
+  
+  </body>
+  <grammarly-desktop-integration data-grammarly-shadow-root="true"></grammarly-desktop-integration><grammarly-mirror data-grammarly-shadow-root="true" class="dnXmp"></grammarly-mirror><grammarly-popups data-grammarly-shadow-root="true" class="dnXmp"></grammarly-popups></html>

@@ -1,0 +1,138 @@
+<html lang="en">
+
+<head>
+  <title>OHD NETWORK Perfy - Performance Analysis Tool</title>
+  <link rel="stylesheet" type="text/css" href="../static/css/perfy-rank.css">
+  <link rel="stylesheet" type="text/css" href="../static/css/jquery-ui.css">
+
+</head>
+
+<body data-new-gr-c-s-check-loaded="14.1111.0" data-gr-ext-installed="">
+
+  <div>
+    <a href="/perfy"><p class="title">OHD NETWORK - Perfy Matrix</p></a>
+    <form action="#" method="post" onsubmit="return compareTasks(event);" style="display: flex; justify-content: center; align-items: center;">
+      <label for="t_id1">Task_id 1:</label>
+      <input type="text" id="t_id1" name="t_id1" style="width: 30px; height: 20px; margin-left: 10px; margin-right: 10px;" required>
+      <br>
+      <label for="t_id2">Task_id 2:</label>
+      <input type="text" id="t_id2" name="t_id2" style="width: 30px; height: 20px; margin-left: 10px; margin-right: 10px;" required>
+      <br>
+      <input type="submit" value="Compare">
+    </form>
+    <div class="admin-link" style="right: 0; position: absolute; font-size: 20px;">
+      <a href="{% url 'admin:index' %}" class="admin-button">Admin</a>
+      <a href="{% url 'manage' %}" class="admin-button">Manage</a>
+    </div>
+  </div>
+  <ul id="tabs">
+    {% for tab in tabs_info %}
+    <li><a id="{{ tab }}" onclick="changeTab({{ tab }})" class="inactive">{{ tab|upper }}</a></li>
+    {% endfor %}
+
+  </ul>
+
+  <script>
+    function changeTab(tabIndex) {
+      console.log(tabIndex)
+      var tabs = document.querySelectorAll("#tabs a");
+      for (var i = 0; i < tabs.length; i++) {
+        if (tabs[i].id == tabIndex.id) {
+          tabs[i].classList.remove("inactive");
+          tabs[i].classList.add("active");
+        } else {
+          tabs[i].classList.remove("active");
+          tabs[i].classList.add("inactive");
+        }
+      }
+      tabIndex = tabIndex.id + "_c"
+      var containers = document.querySelectorAll(".container");
+      for (var i = 0; i < containers.length; i++) {
+        if (containers[i].id == tabIndex) {
+          containers[i].style.display = "block";
+        } else {
+          containers[i].style.display = "none";
+        }
+      }
+    }
+
+    function compareTasks(event) {
+      event.preventDefault();
+      const t_id1 = document.getElementById("t_id1").value;
+      const t_id2 = document.getElementById("t_id2").value;
+      const currentURL = window.location.href;
+      const newURL = `${currentURL}matrix/${t_id1}&${t_id2}`;
+      window.location.href = newURL;
+      return false;
+    }
+  </script>
+
+  <!-- <div class="sort-div">
+    <label class="sort-label">Sort By</label>
+    <select name="sort" id="sort">
+      <option selected="selected" value="rank">Matrix Rank</option>
+      <option value="timestamp">Latest</option>
+    </select>
+    <input type="checkbox" class="details"><span class="expand">Expand details for all</span>
+    <div class="gold-box"></div>
+    <span class="gold-label">Golden</span>
+    <div class="latest-box"></div>
+    <span class="latest-label">Latest</span>
+  </div> -->
+
+  {% for tab , tab_item in tabs_info.items %}
+  <div class="container" id="{{ tab }}_c" style="display: none;">
+    <div class="main">
+      <ol class="matrixlist">
+        {% for task in tab_item.data %}
+        <li class="matrix" type="{{ tab }}" id="{{ task.id }}">
+          <a href="/perfy/matrix/{{ task.id }}">
+            <div class="m-name">{{ task.task_name }}</div>
+            <div class="m-id">[id: {{ task.id }}]</div>
+          </a>
+          <p class="date">Created on: {{ task.created_at }} by {{ task.post_user }}</p>
+          <table style="display: block;">
+            <tbody>
+              <tr>
+                <th class="col-header">rank criteria</th>
+                <th class="col-header">data type</th>
+                <th class="col-header">value</th>
+                <th class="col-header">best value</th>
+                <th class="col-header">delta</th>
+              </tr>
+              {% for rank_criteria , attributes in task.best_values.items %}
+              <tr>
+                <th class="row-header">
+                  <div class="header">{{ rank_criteria }}</div>
+                </th>
+                <td class="sub-row-header">
+                  <div class="sub-header" style="font-size: 10px;">{{ attributes.attribute }}</div>
+                </td>
+                <td>
+                  {{ attributes.val }}
+                </td>
+                <td class="best">
+                  <div class="best-val">{{ attributes.best_value_at_all_time.val }}</div>
+                  <div class="best-id"><a href="/perfy/matrix/{{ attributes.best_value_at_all_time.id }}">[id:{{ attributes.best_value_at_all_time.id }}]</a></div>
+                </td>
+                <td class="{{ attributes.delta.tag }}">
+                  {{ attributes.delta.val }}
+                </td>
+              </tr>
+              {% endfor %}
+
+            </tbody>
+          </table>
+        </li>
+        {% endfor %}
+
+      </ol>
+    </div>
+
+  </div>
+  {% endfor %}
+  <div class="modal"><!-- Place at bottom of page --></div>
+
+</body><grammarly-desktop-integration data-grammarly-shadow-root="true"></grammarly-desktop-integration>
+
+</html>

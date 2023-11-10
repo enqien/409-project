@@ -1,0 +1,238 @@
+.dirty {
+	font-weight: bold;
+}
+.summary {
+	background-color: #E0ECF3;
+	border: 1px solid #F4FFFF;
+	border-radius: 6px;
+	padding: 4px;
+}
+.r-value {
+	border: 1px solid #AAAAAA;
+	border-radius: 4px;
+	background-color: #E0ECF3;
+	padding: 5px;
+	cursor: pointer;
+	font-size: 12px;
+}
+.r-header-td {
+	text-align: right;
+	white-space: nowrap;
+	background-color: #CCE0EB;
+	font-size: 12px;
+	padding: 5px;
+	font-family:"Courier New";
+}
+#none {
+	font-size: 12px;
+	color: #AAAAAA;
+	font-family:"Courier New";
+}
+#add, #add_new {
+	display: none;
+    border: 2px solid #AAAAAA;
+    border-radius: 6px;
+    font-size: 12px;
+    margin-top: 4px;
+    margin-bottom: 4px;
+    background-color: #EFF2F2;
+    cursor: pointer;
+}
+#delete {
+	display: none;
+    border: 2px solid #AAAAAA;
+    border-radius: 6px;
+    font-size: 12px;
+    margin-top: 4px;
+    margin-left: 2px;
+    margin-bottom: 4px;
+    background-color: #EFF2F2;
+    cursor: pointer;
+}
+#add:active, #add_new:active {
+    border: 2px solid #AAAAAA;
+    background-color: #C2C8C8;
+}
+#delete:active {
+    border: 2px solid #AAAAAA;
+    background-color: #C2C8C8;
+}
+
+.title {
+	font-size: 16px;
+	color: #555555;
+	font-family:"Lucida Sans Unicode";
+}
+.th {
+	padding: 5px;
+	font-size: 12px;
+	font-family:"Lucida Sans Unicode";
+	background-color: #EEEEEE;
+	color: #999999;
+}
+.r-td {
+	padding: 5px;
+	font-size: 12px;
+	font-family:"Lucida Sans Unicode";
+	color: #555555;
+}
+.ted-static-div {
+	border: 2px solid #EEEEEE;
+	background-color: #EEEEEE;
+	border-radius: 8px;
+	padding: 5px;
+}
+.ted-div {
+	margin-top: 1%;
+	border: 2px solid #CCE0EB;
+	background-color: #E0ECF3;
+	border-radius: 8px;
+	padding: 5px;
+}
+.testcase-tab {
+	padding: 5px;
+	background-color: #F9FFFF;
+}
+.field-header-static-td {
+	font-size: 12px;
+	text-align: right;
+	white-space: nowrap;
+	background-color: #DDDDDD;
+	font-size: 12px;
+	padding: 5px;
+	font-family:"Courier New";
+}
+.field-header-td {
+	text-align: right;
+	white-space: nowrap;
+	background-color: #CCE0EB;
+	font-size: 12px;
+	padding: 5px;
+	font-family:"Courier New";
+}
+.r-header .field-header {
+	font-size: 12px;
+	text-align: right;
+	white-space: nowrap;
+	margin-left: 1%;
+	margin-right: 1%;
+}
+.field-value-td {
+	font-size: 10px !important;
+	font-family:"Lucida Sans Unicode";
+	color: #444444;
+}
+.field-value-ta {
+	border: solid 1px #AAAAAA;
+	text-decoration: none;
+	background-color: #E0ECF3;
+	border-radius: 6px;
+	margin-left: 4px;
+}
+.field-value-date {
+	border: 2px solid #D4DDDD;
+	border-radius: 4px;
+}
+.editable {
+	cursor: pointer;
+}
+.field-value {
+	overflow-y: auto;
+	border: none;
+	width: 500px;
+	background-color: inherit;
+	font-size: 12px;
+}
+.edit {
+	//border: solid 1px #668888;
+	background-color: #FFFFFF;
+	cursor: text;
+}
+#r-save {
+    border: 2px solid #AAAAAA;
+    border-radius: 6px;
+    font-size: 12px;
+    margin-top: 4px;
+    margin-left: 2px;
+    margin-bottom: 4px;
+    background-color: #EFF2F2;
+    cursor: pointer;
+}
+#r-discard {
+    border: 2px solid #AAAAAA;
+    border-radius: 6px;
+    font-size: 12px;
+    margin-top: 4px;
+    margin-left: 2px;
+    margin-bottom: 4px;
+    background-color: #EFF2F2;
+    cursor: pointer;
+}
+#r-save:active {
+    border: 2px solid #AAAAAA;
+    background-color: #C2C8C8;
+}
+#r-discard:active {
+    border: 2px solid #AAAAAA;
+    background-color: #C2C8C8;
+}
+#s-save {
+	display: none;
+    border: 2px solid #AAAAAA;
+    border-radius: 6px;
+    font-size: 12px;
+    margin-top: 4px;
+    margin-left: 2px;
+    margin-bottom: 4px;
+    background-color: inherit;
+    cursor: pointer;
+}
+#s-discard {
+	display: none;
+    border: 2px solid #AAAAAA;
+    border-radius: 6px;
+    font-size: 12px;
+    margin-top: 4px;
+    margin-left: 2px;
+    margin-bottom: 4px;
+    background-color: inherit;
+    cursor: pointer;
+}
+#s-save:active {
+    border: 2px solid #AAAAAA;
+    background-color: #C2C8C8;
+}
+#s-discard:active {
+    border: 2px solid #AAAAAA;
+    background-color: #C2C8C8;
+}
+.pass {
+    background-color: #83D466;
+    color: black;
+    text-align: center;
+}
+
+.fail {
+    background-color: #FF0000;
+    color: black;
+    text-align: center;
+}
+
+.testing {
+    background-color: #F5F553;
+    color: black;
+    text-align: center;
+}
+
+.untested {
+    background-color: #CAD5E0;
+    color: black;
+    text-align: center;
+}
+
+.skipped {
+    background-color: #E0F2B3;
+    color: black;
+    text-align: center;
+}
+

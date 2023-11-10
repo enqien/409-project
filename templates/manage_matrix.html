@@ -1,0 +1,51 @@
+{% load static %}
+<html lang="en">
+<link rel="stylesheet" type="text/css" href="" />
+
+<head>
+    <link rel="stylesheet" href="{% static 'css/perfy-iperf.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/perfy-rank.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/matrix.css' %}">
+</head>
+
+<script>
+    function Delete(taskId, taskName,log_id) {
+        if (confirm(`Are you sure you want to delete this row?`)) {
+            const url = window.location.href;
+            const data = { task_name: taskName , log_id : log_id};
+            fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+            })
+            .then(response => {
+                if (response.ok) {
+                    alert('Task deleted successfully');
+                    location.reload();
+                } else {
+                    alert('Failed to delete task');
+                }
+            })
+            .catch(error => {
+                console.error('Error occurred while deleting task', error);
+            });
+        }
+    }
+</script>
+
+<body data-new-gr-c-s-check-loaded="14.1111.0" data-gr-ext-installed="">
+
+<div>
+<a href="/perfy"><p class="title">OHD NETWORK - Perfy Matrix</p></a>
+</div>
+
+<div class="table-container">
+    {{ data|safe }}
+</div>
+
+
+</body>
+
+</html>
