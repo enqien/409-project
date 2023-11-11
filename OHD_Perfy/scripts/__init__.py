@@ -52,7 +52,7 @@ def pandasArray_to_html(df:pd.DataFrame,columns : str,log_id : list = None,base_
     if log_id:
         marked_ids = set([int(i.id) for i in LogsInfo.objects.filter(marked = True)])
         for row , id in zip(tbody.find_all("tr"),log_id):
-            log_url = os.path.join(base_url,"perfy","log",str(int(id)))
+            log_url = f"{base_url}/perfy/log/{str(int(id))}"
             row.attrs['onclick'] = f"window.open('{log_url}')"
             if int(id) in marked_ids:
                 for cell in row.find_all("td"):
