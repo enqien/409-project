@@ -1,5 +1,5 @@
-from django.shortcuts import render
-import os , sys , json ,re
+from django.shortcuts import render, redirect
+import os , sys , json ,re, pymysql
 from django.views.decorators.csrf import csrf_exempt
 from .models import TasksInfo , SystemsInfo , LogsContent , LogsInfo , Comment
 from django.shortcuts import get_object_or_404
@@ -15,6 +15,10 @@ from .scripts.Readers import CSV_Reader , JSON_Reader
 from .scripts.views import display_matrix
 from .scripts import query_table, delete_table , delete_logs , pandasArray_to_html
 from .utils import post_verification
+from django.contrib.auth.hashers import check_password, make_password
+from django.contrib.auth import login, logout
+
+
 # Create your views here.
 
 @csrf_exempt
@@ -695,3 +699,120 @@ def manage_matrix(request,t_id):
     }
     
     return render(request,'manage_matrix.html',data)
+
+# Login view
+def login_view(request):
+    error_message = None
+    if request.method == 'POST':
+        username = request.POST['username']
+        raw_password = request.POST['password']
+
+        db_config = settings.DATABASES['default']
+        connection = pymysql.connect(
+            host=db_config['HOST'],
+            user=db_config['USER'],
+            password=db_config['PASSWORD'],
+            database=db_config['NAME'],
+            cursorclass=pymysql.cursors.DictCursor
+        )
+        try:
+            with connection.cursor() as cursor:
+                # Query to check if a user with the given username and password exists
+                sql = "SELECT password FROM auth_user WHERE username = %s"
+                cursor.execute(sql, (username,))
+                result = cursor.fetchone()
+                correctPassword = check_password(raw_password, result['password'])
+                if result and correctPassword:
+                    user, created = User.objects.get_or_create(username=username)
+                    login(request, user)
+                    # return redirect('/')
+                else:
+                    error_message = "Invalid username or password"
+        finally:
+            connection.close()
+    return render(request, 'login.html', {'error_message': error_message})
+
+
+def logout_view(request):
+    logout(request)
+    return redirect('login')  # Redirects to the login page after logout
+
+
+# Signup view
+def signup_view(request):
+    error_message = None
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        confirm_password = request.POST['confirm_password']
+        email = request.POST.get('email', '')  # Email is optional
+        # Check if the password is strong
+        if not isStrongPassword(password):
+            error_message = "Password is not strong enough!"
+        elif password != confirm_password:
+            error_message = "Two passwords are different!"
+        else:
+            # Hash the password
+            hashed_password = make_password(password)
+
+            db_config = settings.DATABASES['default']
+            connection = pymysql.connect(
+                host=db_config['HOST'],
+                user=db_config['USER'],
+                password=db_config['PASSWORD'],
+                database=db_config['NAME'],
+                cursorclass=pymysql.cursors.DictCursor
+            )
+            try:
+                with connection.cursor() as cursor:
+                    # Query to check if a user with the given username and password exists
+                    sql = "SELECT id FROM auth_user WHERE username = %s"
+                    cursor.execute(sql, (username,))
+                    result = cursor.fetchone()
+                    if result:
+                        error_message = "Username already exists!"
+                    else:
+                        #write into table auth_user, seting username and password(with hashing)
+                        #also set is_superuser:0, and is_staff:1
+                        insert_sql = """
+                            INSERT INTO auth_user (username, password, email, is_superuser, 
+                            is_staff, first_name, last_name, is_active, date_joined)
+                            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, NOW())
+                        """
+                        cursor.execute(insert_sql, (username, hashed_password, email, 0, 1, '', '', 1))
+                        connection.commit()
+
+                        user, created = User.objects.get_or_create(username=username)
+                        user.is_superuser = False
+                        user.is_staff = True
+                        user.save()
+                        login(request, user)
+                        # return redirect('/')
+            finally:
+                connection.close()
+    return render(request, 'signup.html', {'error_message': error_message})
+
+
+def isStrongPassword(password):
+    # Check the password length
+    if len(password) < 8:
+        return False
+    # Initialize criteria variables
+    has_upper = has_lower = has_digit = has_special = False
+    # Define the set of special characters
+    special_characters = "!@#$%^&*(),.?\":{}|<>"
+    # Check each character of the password
+    for char in password:
+        if char.isupper():
+            has_upper = True
+        elif char.islower():
+            has_lower = True
+        elif char.isdigit():
+            has_digit = True
+        elif char in special_characters:
+            has_special = True
+        # If all criteria are met, no need to continue checking
+        if has_upper and has_lower and has_digit and has_special:
+            return True
+    # If the loop ends without all criteria being met
+    return False
