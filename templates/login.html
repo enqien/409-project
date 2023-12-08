@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>OHD NETWORK Perfy - Performance Analysis Tool</title>
+    <link rel="stylesheet" type="text/css" href="/static/css/perfy-rank.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/jquery-ui.css">
+
+    <style>
+        .form-group {
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            width: auto;
+            /* Adjust this value as needed */
+            max-width: 400px;
+            /* Maximum width */
+            margin: auto;
+        }
+
+        .form-group label,
+        .form-group input,
+        .form-group button,
+        .signup-link,
+        .logout-section {
+            font-size: 1.2em;
+            /* Adjust the font size as needed */
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        .form-group button {
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .form-group button:hover {
+            background-color: #0056b3;
+        }
+
+        .signup-link {
+            margin-top: 15px;
+            text-align: center;
+        }
+
+        .logout-section {
+            background: #fff;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .logout-button {
+            background-color: #dc3599;
+            /* Red color for logout */
+            color: white;
+            padding: 5px 10px;
+            text-decoration: none;
+            border-radius: 4px;
+            border: none;
+            display: inline-block;
+            cursor: pointer;
+        }
+
+        .logout-button:hover {
+            background-color: #c82333;
+        }
+    </style>
+</head>
+
+<div>
+    <a href="/perfy">
+        <p class="title">OHD NETWORK - Perfy Matrix</p>
+    </a>
+</div>
+
+<body>
+    {% if request.user.is_authenticated %}
+    <!-- Display user information and logout button -->
+    <div class="logout-section">
+        <p>Welcome, {{ request.user.username }}!</p>
+        <a href="{% url 'logout' %}" class="logout-button">Logout</a>
+    </div>
+    {% else %}
+    <form method="post">
+        <!-- <h2>Login</h2> -->
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="id_username">Username:</label>
+            <input type="text" id="id_username" name="username" required>
+        </div>
+        <div class="form-group">
+            <label for="id_password">Password:</label>
+            <input type="password" id="id_password" name="password" required>
+        </div>
+        <div class="form-group">
+            <button type="submit">Login</button>
+        </div>
+        {% if error_message %}
+        <p style="color: red;">{{ error_message }}</p>
+        {% endif %}
+        <div class="signup-link">
+            Don't have an account? <a href="{% url 'signup' %}">Sign up</a>
+        </div>
+    </form>
+    {% endif %}
+</body>
+
+</html>
